@@ -1,0 +1,30 @@
+# Menggunakan versi 2.1
+version: "3.7"
+services:
+  # Layanan 1 item-app
+  item-app:
+    # Menggunakan image dari ghcr.io/ArchieOps/item-app:v1
+    image: ghcr.io/archieops/item-app:v1
+    # Restart policy
+    restart: always
+    # Ketergantungan layanan item-db
+    depends_on:
+      - item-db
+    # expose port 8080
+    ports:
+      - 80:8080
+  # Layanan 2 item-db
+  item-db:
+    # Menggunakan image mongo:3
+    image: mongo:3
+    # Restart policy
+    restart: always
+    # expose port 27017 untuk layanan mongodb (default port)
+    ports:
+      - 27017:27017
+    # Volume untuk menyimpan data mongodb
+    volumes:
+      - app-db:/data/db
+# Volume untuk menyimpan data mongodb
+volumes:
+  app-db:
