@@ -1,0 +1,14 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: karsajobs-mongo
+  labels:
+    app: karsajobs-mongo
+    tier: database
+spec:
+  clusterIP: None
+  selector:
+    app: karsajobs-mongo
+    tier: backend
+  ports:
+    - port: 27017

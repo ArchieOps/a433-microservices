@@ -1,0 +1,8 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: karsajobs-mongo-config
+data:
+  mongo.conf: |
+    storage:
+      dbPath: /data/db

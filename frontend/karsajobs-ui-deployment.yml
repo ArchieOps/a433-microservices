@@ -1,0 +1,28 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: karsajobs-fe
+  labels:
+    app: karsajobs-fe
+    tier: frontend
+spec:
+  replicas: 1               
+  selector:                 
+    matchLabels:
+      app: karsajobs-fe
+      tier: frontend
+  template:                 
+    metadata:               
+      labels:            
+        app: karsajobs-fe
+        tier: frontend
+    spec:                
+      containers:      
+      - name: karsajobs-fe
+        image: ghcr.io/archieops/karsajobs-ui:latest
+        imagePullPolicy: IfNotPresent 
+        env:                
+        - name: VUE_APP_BACKEND
+          value: "http://10.108.113.6:30037"
+        ports:
+        - containerPort: 8000
