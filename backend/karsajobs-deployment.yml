@@ -1,39 +1,40 @@
-apiVersion: apps/v1
+// Deployment type
+apiVersion: apps/v1 
 kind: Deployment
 metadata:
-  name: karsajobs-be
+  name: karsajobs-be # Name of the deployment
   labels:
-    app: karsajobs-be
-    tier: backend
-spec:
-  replicas: 1
-  selector:
+    app: karsajobs-be # Application label
+    tier: backend # Tier label
+spec: # Specification of the deployment
+  replicas: 1 # Number of replicas
+  selector: # Selector to match pods
     matchLabels:
       app: karsajobs-be
       tier: backend
-  template:
+  template: # Template for the pod
     metadata:
       labels:
         app: karsajobs-be
         tier: backend
-    spec:
-      containers:
+    spec: # Pod specification
+      containers: # List of containers in the pod
       - name: karsajobs-be
         image: ghcr.io/archieops/karsajobs:latest
         env:
-        - name: APP_PORT
+        - name: APP_PORT # Application port
           value: "8080"
-        - name: MONGO_HOST
+        - name: MONGO_HOST # MongoDB host
           value: karsajobs-mongo
-        - name: MONGO_USER
-          valueFrom:
+        - name: MONGO_USER # MongoDB username
+          valueFrom: 
             secretKeyRef:
               name: karsajobs-mongo-secret
-              key: MONGO_ROOT_USERNAME
-        - name: MONGO_PASS
+              key: MONGO_ROOT_USERNAME # MongoDB username from secret
+        - name: MONGO_PASS # MongoDB password
           valueFrom:
             secretKeyRef:
-              name: karsajobs-mongo-secret
-              key: MONGO_ROOT_PASSWORD
-        ports:
-        - containerPort: 8080
+              name: karsajobs-mongo-secret 
+              key: MONGO_ROOT_PASSWORD # MongoDB password from secret
+        ports: 
+        - containerPort: 8080 # Container port

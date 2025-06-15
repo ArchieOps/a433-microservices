@@ -1,15 +1,15 @@
 apiVersion: v1
-kind: Service
+kind: Service # Service type
 metadata:
-  name: karsajobs-be
+  name: karsajobs-be # Name of the service
   labels:
-    app: karsajobs-be
+    app: karsajobs-be # Application label
     tier: backend
 spec:
-  type: NodePort
+  type: NodePort # Type of service
   selector:
     app: karsajobs-be
     tier: backend
   ports:
-  - port: 8080
-    nodePort: 30037
+  - port: 8080 # Port exposed by the service
+    nodePort: 30037 # Node port for external access

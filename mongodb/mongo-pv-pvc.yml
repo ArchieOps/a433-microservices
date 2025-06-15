@@ -1,26 +1,26 @@
 apiVersion: v1
-kind: PersistentVolume
+kind: PersistentVolume # Persistent Volume for MongoDB
 metadata:
-  name: karsajobs-mongo-pv
+  name: karsajobs-mongo-pv # Name of the Persistent Volume
   labels:
-    type: local
+    type: local # Label for the Persistent Volume
 spec:
-  storageClassName: manual
+  storageClassName: manual # Storage class for the Persistent Volume
   capacity:
-    storage: 1Gi
-  accessModes:
+    storage: 1Gi # Storage capacity
+  accessModes: # Access modes for the Persistent Volume
     - ReadWriteOnce
-  hostPath:
+  hostPath: # Host path for the Persistent Volume
     path: /mnt/data/
 ---
 apiVersion: v1
-kind: PersistentVolumeClaim
+kind: PersistentVolumeClaim # Persistent Volume Claim for MongoDB
 metadata:
-  name: karsajobs-mongo-pvc
+  name: karsajobs-mongo-pvc # Name of the Persistent Volume Claim
 spec:
-  storageClassName: manual
-  accessModes:
+  storageClassName: manual # Storage class for the Persistent Volume Claim
+  accessModes: # Access modes for the Persistent Volume Claim
     - ReadWriteOnce
-  resources:
+  resources: # Resource requests for the Persistent Volume Claim
     requests:
       storage: 1Gi

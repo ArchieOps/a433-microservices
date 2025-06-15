@@ -1,28 +1,28 @@
-apiVersion: apps/v1
-kind: Deployment
+apiVersion: apps/v1 # Deployment type
+kind: Deployment # Frontend Deployment
 metadata:
   name: karsajobs-fe
   labels:
     app: karsajobs-fe
     tier: frontend
-spec:
-  replicas: 1               
-  selector:                 
+spec: ## Specification of the deployment
+  replicas: 1 # Number of replicas
+  selector:  # Selector to match pods
     matchLabels:
-      app: karsajobs-fe
-      tier: frontend
-  template:                 
-    metadata:               
-      labels:            
-        app: karsajobs-fe
-        tier: frontend
-    spec:                
-      containers:      
+      app: karsajobs-fe # Application label
+      tier: frontend # Tier label
+  template: # Template for the pod
+    metadata:
+      labels:
+        app: karsajobs-fe # Application label
+        tier: frontend # Tier label
+    spec: # Pod specification
+      containers: # List of containers in the pod
       - name: karsajobs-fe
-        image: ghcr.io/archieops/karsajobs-ui:latest
-        imagePullPolicy: IfNotPresent 
+        image: ghcr.io/archieops/karsajobs-ui:latest # Container image
+        imagePullPolicy: IfNotPresent # Image pull policy
         env:                
         - name: VUE_APP_BACKEND
-          value: "http://10.108.113.6:30037"
+          value: "http://10.108.113.6:30037" # Backend service URL
         ports:
         - containerPort: 8000
