@@ -1,0 +1,44 @@
+version: "3.2"
+services:
+
+  # RabbitMQ service with management plugin
+  rabbitmq-service:
+    image: rabbitmq:3.11-management # Use the RabbitMQ image with management plugin
+    container_name: 'rabbitmq_container'
+    ports: # Expose RabbitMQ ports
+      - 5672:5672 
+      - 15672:15672 
+    volumes: # Mount volumes for RabbitMQ data and logs
+      - ~/.docker-conf/rabbitmq/data/:/var/lib/rabbitmq/
+      - ~/.docker-conf/rabbitmq/log/:/var/log/rabbitmq
+    networks: # Define the network for RabbitMQ
+      - rabbitmq_network
+
+  order-service: 
+    image: ghcr.io/archieops/order-service:latest # Use the latest image for order service
+    ports: # Expose the order service port
+      - 3000:3000 
+    depends_on: # Ensure RabbitMQ is started before order service
+      - rabbitmq-service
+    networks:
+      - rabbitmq_network
+    restart: always # Restart policy for the order service
+    environment:
+      AMPQ_URL: amqp://guest:guest@rabbitmq-service:5672
+
+  shipping-service:
+    image: ghcr.io/archieops/shipping-service:latest # Use the latest image for shipping service
+    ports: # Expose the shipping service port
+      - 3001:3001
+    depends_on: # Ensure RabbitMQ is started before shipping service
+      - rabbitmq-service
+    networks:
+      - rabbitmq_network
+    restart: always # Restart policy for the shipping service
+    environment:
+      AMPQ_URL: amqp://guest:guest@rabbitmq-service:5672
+
+networks:
+  rabbitmq_network:
+    driver: bridge
+
